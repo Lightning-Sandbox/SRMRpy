@@ -69,4 +69,3 @@ def hilbert(x, N=None, axis=-1):
         h = h[tuple(ind)]
     y = ifft(Xf * h, axis=axis)
     return y[:x.shape[axis]]
-

@@ -124,7 +124,7 @@ def main():
         help='Center frequency of the first modulation filter')
     parser.add_argument('--maxcf', dest='max_cf', type=float, default=128.0,
         help='Center frequency of the last modulation filter')
-    parser.add_argument('path', metavar='path', nargs='+', 
+    parser.add_argument('path', metavar='path', nargs='+',
             help='Path of the file or files to be processed. Can also be a folder.')
     args = parser.parse_args()
 

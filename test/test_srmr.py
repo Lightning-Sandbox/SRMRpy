@@ -29,4 +29,3 @@ def test_srmr_slow():
 def test_srmr_slow_norm():
     ratio_norm, avg_energy_norm = srmr(s, fs, fast=False, norm=True, max_cf=30)
     assert np.allclose(ratio_norm, correct_ratios[3], rtol=1e-6, atol=1e-12)
-

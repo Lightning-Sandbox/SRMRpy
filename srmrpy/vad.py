@@ -35,4 +35,3 @@ if __name__ == '__main__':
     plt.plot(s)
     plt.plot(s_vad - 1, 'g')
     plt.show()
-

@@ -31,4 +31,3 @@ def modfilt(F, x):
     for k, f in enumerate(F):
         y[k] = sig.lfilter(f[0], f[1], x)
     return y
-

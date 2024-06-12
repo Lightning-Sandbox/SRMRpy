@@ -25,3 +25,14 @@ repos:
         additional_dependencies:
           - mdformat-gfm
           - mdformat_frontmatter
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.5
+    hooks:
+      # try to fix what is possible
+      - id: ruff
+        args: ["--fix"]
+      # perform formatting updates
+      - id: ruff-format
+      # validate if all is fine with preview mode
+      - id: ruff

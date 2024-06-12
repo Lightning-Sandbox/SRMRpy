@@ -3,28 +3,22 @@
 #
 # This file is part of the SRMRpy library, and is licensed under the
 # MIT license: https://github.com/jfsantos/SRMRpy/blob/master/LICENSE
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
-    name = "SRMRpy",
-    version = "1.0",
-    packages = find_packages(),
-
-    install_requires = [
-        'numpy',
-        'scipy',
-        'Gammatone',
+    name="SRMRpy",
+    version="1.0",
+    packages=find_packages(),
+    install_requires=[
+        "numpy",
+        "scipy",
+        "Gammatone",
     ],
-
-    tests_require = [
-      'nose'
-    ],
-
-    test_suite = 'nose.collector',
-
-    entry_points = {
-        'console_scripts': [
-            'srmr = srmrpy.srmr:main',
+    tests_require=["nose"],
+    test_suite="nose.collector",
+    entry_points={
+        "console_scripts": [
+            "srmr = srmrpy.srmr:main",
         ]
-    }
+    },
 )

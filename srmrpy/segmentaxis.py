@@ -49,21 +49,21 @@ def segment_axis(a, length, overlap=0, axis=None, end="cut", endvalue=0):
         a = np.ravel(a)  # may copy
         axis = 0
 
-    l = a.shape[axis]
+    ln = a.shape[axis]
 
     if overlap >= length:
         raise ValueError("frames cannot overlap by more than 100%")
     if overlap < 0 or length <= 0:
         raise ValueError("overlap must be nonnegative and length must " "be positive")
 
-    if l < length or (l - length) % (length - overlap):
-        if l > length:
-            roundup = length + (1 + (l - length) // (length - overlap)) * (length - overlap)
-            rounddown = length + ((l - length) // (length - overlap)) * (length - overlap)
+    if ln < length or (ln - length) % (length - overlap):
+        if ln > length:
+            roundup = length + (1 + (ln - length) // (length - overlap)) * (length - overlap)
+            rounddown = length + ((ln - length) // (length - overlap)) * (length - overlap)
         else:
             roundup = length
             rounddown = 0
-        assert rounddown < l < roundup
+        assert rounddown < ln < roundup
         assert roundup == rounddown + (length - overlap) or (roundup == length and rounddown == 0)
         a = a.swapaxes(-1, axis)
 
@@ -74,21 +74,21 @@ def segment_axis(a, length, overlap=0, axis=None, end="cut", endvalue=0):
             s[-1] = roundup
             b = np.empty(s, dtype=a.dtype)
             if end in ["pad", "wrap"]:
-                b[..., :l] = a
+                b[..., :ln] = a
             if end == "pad":
-                b[..., l:] = endvalue
+                b[..., ln:] = endvalue
             elif end == "wrap":
-                b[..., l:] = a[..., : roundup - l]
+                b[..., ln:] = a[..., : roundup - ln]
             a = b
         elif end == "delay":
             s = list(a.shape)
-            l_orig = l
-            l += overlap
+            l_orig = ln
+            ln += overlap
             # if l not divisible by length, pad last frame with zeros
             if l_orig % (length - overlap):
-                roundup = length + (1 + (l - length) // (length - overlap)) * (length - overlap)
+                roundup = length + (1 + (ln - length) // (length - overlap)) * (length - overlap)
             else:
-                roundup = l
+                roundup = ln
             s[-1] = roundup
             b = np.empty(s, dtype=a.dtype)
 
@@ -101,12 +101,12 @@ def segment_axis(a, length, overlap=0, axis=None, end="cut", endvalue=0):
 
         a = a.swapaxes(-1, axis)
 
-    l = a.shape[axis]
-    if l == 0:
+    ln = a.shape[axis]
+    if ln == 0:
         raise ValueError("Not enough data points to segment array in 'cut' mode; " "try 'pad' or 'wrap'")
-    assert l >= length
-    assert (l - length) % (length - overlap) == 0
-    n = 1 + (l - length) // (length - overlap)
+    assert ln >= length
+    assert (ln - length) % (length - overlap) == 0
+    n = 1 + (ln - length) // (length - overlap)
     s = a.strides[axis]
     newshape = a.shape[:axis] + (n, length) + a.shape[axis + 1 :]
     newstrides = a.strides[:axis] + ((length - overlap) * s, s) + a.strides[axis + 1 :]

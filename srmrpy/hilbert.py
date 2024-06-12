@@ -4,7 +4,7 @@
 # This file is part of the SRMRpy library, and is licensed under the
 # MIT license: https://github.com/jfsantos/SRMRpy/blob/master/LICENSE
 
-from numpy import *
+import numpy as np
 from numpy.fft import fft, ifft
 
 # This is copied straight from scipy.signal. The reason is that scipy.signal's version
@@ -44,19 +44,19 @@ def hilbert(x, N=None, axis=-1):
     .. [1] Wikipedia, "Analytic signal".
            http://en.wikipedia.org/wiki/Analytic_signal
     """
-    x = asarray(x)
-    if iscomplexobj(x):
+    x = np.asarray(x)
+    if np.iscomplexobj(x):
         raise ValueError("x must be real.")
     if N is None:
         N = x.shape[axis]
         # Make N multiple of 16 to make sure the transform will be fast
         if N % 16:
-            N = int(ceil(N / 16) * 16)
+            N = int(np.ceil(N / 16) * 16)
     if N <= 0:
         raise ValueError("N must be positive.")
 
     Xf = fft(x, N, axis=axis)
-    h = zeros(N)
+    h = np.zeros(N)
     if N % 2 == 0:
         h[0] = h[N // 2] = 1
         h[1 : N // 2] = 2
@@ -65,7 +65,7 @@ def hilbert(x, N=None, axis=-1):
         h[1 : (N + 1) // 2] = 2
 
     if len(x.shape) > 1:
-        ind = [newaxis] * x.ndim
+        ind = [np.newaxis] * x.ndim
         ind[axis] = slice(None)
         h = h[tuple(ind)]
     y = ifft(Xf * h, axis=axis)
